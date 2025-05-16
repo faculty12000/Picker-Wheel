@@ -67,17 +67,21 @@
     </ul>
   </div>
   <script>
+    // Get references to DOM elements
     const canvas = document.getElementById("wheelCanvas");
     const ctx = canvas.getContext("2d");
     const spinButton = document.getElementById("spinButton");
     const itemInput = document.getElementById("itemInput");
     const itemList = document.getElementById("itemList");
     const keepSelected = document.getElementById("keepSelected");
-    let items = ["Option 1", "Option 2", "Option 3"];
-    let startAngle = 0;
-    let spinning = false;
-    let selectedIdx = null;
 
+    // Initial items on the wheel
+    let items = ["Option 1", "Option 2", "Option 3"];
+    let startAngle = 0;      // Current rotation angle of the wheel
+    let spinning = false;    // Is the wheel currently spinning?
+    let selectedIdx = null;  // Index of the selected item
+
+    // Draw the wheel with all items
     function drawWheel() {
       ctx.clearRect(0, 0, 500, 500);
       if (items.length === 0) return;
@@ -92,11 +96,11 @@
         ctx.beginPath();
         ctx.moveTo(250, 250);
         ctx.arc(250, 250, 240, start, end);
-        ctx.fillStyle = `hsl(${i * 360 / items.length}, 70%, 60%)`;
+        ctx.fillStyle = `hsl(${i * 360 / items.length}, 70%, 60%)`; // Unique color per slice
         ctx.fill();
         ctx.strokeStyle = "#fff";
         ctx.stroke();
-        // Draw text
+        // Draw item text
         ctx.save();
         ctx.translate(250, 250);
         ctx.rotate(start + angle / 2);
@@ -106,7 +110,7 @@
         ctx.restore();
       }
       ctx.restore();
-      // Draw pointer
+      // Draw the pointer at the top
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(250, 10);
@@ -118,12 +122,14 @@
       ctx.restore();
     }
 
+    // Update the list of items below the input
     function updateItemList() {
       itemList.innerHTML = "";
       items.forEach((item, idx) => {
         const li = document.createElement("li");
         li.textContent = item;
         li.title = "Click to remove";
+        // Remove item when clicked
         li.onclick = () => {
           items.splice(idx, 1);
           updateItemList();
@@ -133,17 +139,21 @@
       });
     }
 
+    // Spin the wheel and select a random item
     function spinWheel() {
       if (spinning || items.length === 0) return;
       spinning = true;
       spinButton.disabled = true;
-      let duration = 3000;
+      let duration = 3000; // Spin duration in ms
       let startTime = null;
-      selectedIdx = Math.floor(Math.random() * items.length);
+      selectedIdx = Math.floor(Math.random() * items.length); // Pick random item
       const anglePerItem = (2 * Math.PI) / items.length;
+      // Calculate angle so selected item lands at the pointer
       const targetAngle = (3 * Math.PI / 2) - (selectedIdx * anglePerItem) - (anglePerItem / 2);
-      const extraSpins = 5;
+      const extraSpins = 5; // Extra spins for effect
       const finalAngle = (2 * Math.PI * extraSpins) + targetAngle;
+
+      // Animation loop
       function animateSpin(time) {
         if (!startTime) startTime = time;
         const progress = time - startTime;
@@ -171,12 +181,14 @@
       requestAnimationFrame(animateSpin);
     }
 
+    // Easing function for smooth animation
     function easeOut(t, b, c, d) {
       t /= d;
       t--;
       return c * (t * t * t + 1) + b;
     }
 
+    // Add item on Enter key
     itemInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter" && itemInput.value.trim()) {
         items.push(itemInput.value.trim());
@@ -186,6 +198,7 @@
       }
     });
 
+    // Spin button event
     spinButton.addEventListener("click", spinWheel);
 
     // Initial render
