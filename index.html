@@ -45,7 +45,9 @@
   </style>
 </head>
 <body>
-  <h1>Cohort-2 Picker Wheel</h1>
+  <h1 style="font-size:2.5rem;letter-spacing:2px;color:#0077b6;margin-bottom:1rem;">
+    <span style="color:#e74c3c;">SPIN</span> and <span style="color:#43aa8b;">PICK</span>
+  </h1>
   <input id="itemInput" type="text" placeholder="Add item and press Enter">
   <ul id="itemList"></ul>
   <canvas id="wheelCanvas" width="500" height="500"></canvas>
@@ -56,7 +58,6 @@
   </label>
   <br>
   <button id="spinButton">Spin</button>
-
   <div id="instructions" style="max-width:500px;margin:2rem auto 0;font-size:1.1rem;text-align:left;">
     <h2>How to use:</h2>
     <ul>
@@ -65,9 +66,6 @@
       <li>Check or uncheck <b>Keep selected item after spin</b> to control if the winner stays on the wheel.</li>
       <li>Click <b>Spin</b> to randomly select an item.</li>
     </ul>
-    <div style="margin-top:1.5rem;padding:1rem;background:#e7f7ff;border-radius:8px;color:#0077b6;">
-      <b>Visit the main website at <a href="https://spinandpick.fun" target="_blank" rel="noopener">spinandpick.fun</a></b>
-    </div>
   </div>
   <script>
     // Get references to DOM elements
@@ -208,5 +206,8 @@
     updateItemList();
     drawWheel();
   </script>
+  <footer style="margin-top:2rem;font-size:0.95rem;color:#888;text-align:center;">
+    Made with <span style="color:#e74c3c;">&#10084;</span> by <b>Fahad</b>
+  </footer>
 </body>
 </html>
